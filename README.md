@@ -3,11 +3,11 @@ zeroCPR stands for **zero-shot Complementary Product Recommender framework**. <b
 
 The zeroCPR framework can be outlined as follows, where we apply the following 3 steps for each product in our product list:
 
-![alt text](image.png)
+![alt text](framework.png)
 
 Following the creation of the complementar dataset, we can use the **Nearest Substitute Filling method** to account for the lack of data on a recommendation:
 
-![alt text](<complementary - substitute.png>)
+![alt text](<nearest-substitute-filling.png>)
 
 # supported API providers
 
