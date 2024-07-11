@@ -1,6 +1,12 @@
 # zeroCPR
 zeroCPR stands for **zero-shot Complementary Product Recommender framework**. <br> It is an open-source library designed to employ the power of LLMs to find complementaries given your complete product stock.
 
+The zeroCPR framework can be outlined as follows, where we apply the following 3 steps for each product in our product list:
+
+![alt text](image.png)
+
+Following the creation of the complementar dataset, we can use the **Nearest Substitute Filling method** to account for the lack of data on a recommendation:
+
 ![alt text](<complementary - substitute.png>)
 
 # supported API providers
@@ -8,6 +14,8 @@ zeroCPR stands for **zero-shot Complementary Product Recommender framework**. <b
 - **[groq](https://groq.com/)**
 
 # Running the engine
+
+Refere to **notebooks/example_notebook.ipynb** for a working example.
 
 ```
 from zeroCPR import engine
