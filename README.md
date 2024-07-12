@@ -24,10 +24,10 @@ from zeroCPR import engine
 myagent = engine.agent(groq_api_key='<your_api_key>')
 ```
 
-The next step is inputting a list of products, for example:
+The next step is inputting a list of products:
 
 ```
-['BLACK AND WHITE PAISLEY FLOWER MUG',
+product_list = ['BLACK AND WHITE PAISLEY FLOWER MUG',
  'ASSORTED MINI MADRAS NOTEBOOK',
  'VICTORIAN METAL POSTCARD CHRISTMAS',
  'METAL SIGN EMPIRE TEA',
@@ -41,17 +41,17 @@ The next step is inputting a list of products, for example:
 ```
 ### Encoding the list of products
 
-The library uses the [sentence-transformers](https://github.com/UKPLab/sentence-transformers) to encode the list. You can run the following line of code ** once**, and after saved the library somewhere you can **upload it back** (saving minutes/hours each time), or perhaps with your custom encoded data.
+The library uses the [sentence-transformers](https://github.com/UKPLab/sentence-transformers) to encode the list. You can run the following line of code **once**, and after saving the library somewhere you can **upload it back** (saving minutes/hours each time), or perhaps with your custom encoded data.
 
 ```
 df_encoded = myagent.encode_products(product_list)
-df_encoded.to_parquet('notebooks/df_encoded.parquet', index=None)
+df_encoded.to_parquet('df_encoded.parquet', index=None)
 ```
 
-if you already have an encoded dataset, in case you want to skip the encoding process every time you open up the notebook, upload encoded products from parquet to save time. The object should be a pandas datafrme with one column called **'raw'**, containing textual data, whiel the other column is called **'text_vector_'**, containing vectors.
+if you already have an encoded dataset, in case you want to skip the encoding process every time you open up the notebook, upload encoded products from parquet to save time. The object should be a pandas datafrme with one column called **'raw'**, containing textual data, while the other column is called **'text_vector_'**, containing vectors.
 
 ```
-df_encoded = pd.read_parquet('notebooks/df_encoded.parquet')
+df_encoded = pd.read_parquet('df_encoded.parquet')
 myagent.upload_encoded_products(df_encoded)
 ```
 
@@ -104,5 +104,5 @@ The pipeline is designed to **try a maximum of 5 times** before giving up on a p
 Don't forget to save your file once the process is completed.
 
 ```
-df_complementaries.to_parquet('notebooks/df_complementaries.parquet', index=None)
+df_complementaries.to_parquet('df_complementaries.parquet', index=None)
 ```
