@@ -27,7 +27,8 @@ myagent = engine.agent(groq_api_key='<your_api_key>')
 The next step is inputting a list of products:
 
 ```
-product_list = ['BLACK AND WHITE PAISLEY FLOWER MUG',
+product_list = [
+ 'BLACK AND WHITE PAISLEY FLOWER MUG',
  'ASSORTED MINI MADRAS NOTEBOOK',
  'VICTORIAN METAL POSTCARD CHRISTMAS',
  'METAL SIGN EMPIRE TEA',
