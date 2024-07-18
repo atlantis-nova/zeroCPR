@@ -32,9 +32,10 @@ class fn_main():
     def filter_complementary_candidates(self, df_candidates, product_name, verbose=False):
         
         # uses a llm to check values
-        complementary_list = df_candidates['product_name'].tolist()
+        complementary_list = df_filtered[['index', 'product_name']].values.tolist()
         complete_list = self.check_complementary(product_name=product_name, complementary_list=complementary_list, verbose=verbose)
         df_filtered = pd.DataFrame(complete_list)
+        display(df_filtered)
         df_filtered.columns = ['product_name', 'recommended_product', 'reasoning', 'score']
         df_filtered['llm_product'] = df_candidates['llm_product']
         df_filtered['index'] = df_candidates['index']
