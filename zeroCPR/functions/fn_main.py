@@ -18,47 +18,31 @@ class fn_main():
 
         # uses a llm to extract complementary products
         selection = list()
-        output = self.list_complementary(product_name)
-        for k in output:
-            index, product_name_ = self.search_similar(k[0])
-            selection.append([index, k[1], k[0]])
-        df_ = pd.DataFrame([[x[0], x[2], self.product_list[x[0]], x[1]] for x in selection])
-        df_.columns = ['index', 'llm_product', 'product_name', 'score']
-        df_ = df_.drop_duplicates(subset='product_name').reset_index(drop=True)
-        df_ = df_[df_['index']!=0]
-        return df_
+        df_complementaries = self.list_complementary(product_name)
+
+        for complementary in df_complementaries['complementary'].tolist():
+            index, product_name_ = self.search_similar(complementary)
+            selection.append([index, complementary, product_name_])
+
+        df_selection = pd.DataFrame(selection)
+        df_selection.columns = ['index', 'llm_product', 'product_name']
+        df_selection = df_selection.drop_duplicates(subset='index').reset_index(drop=True)
+
+        return df_selection
 
 
     def filter_complementary_candidates(self, df_candidates, product_name, verbose=False):
         
         # uses a llm to check values
-        complementary_list = df_filtered[['index', 'product_name']].values.tolist()
-        complete_list = self.check_complementary(product_name=product_name, complementary_list=complementary_list, verbose=verbose)
-        df_filtered = pd.DataFrame(complete_list)
-        display(df_filtered)
-        df_filtered.columns = ['product_name', 'recommended_product', 'reasoning', 'score']
-        df_filtered['llm_product'] = df_candidates['llm_product']
-        df_filtered['index'] = df_candidates['index']
-        df_filtered['similarity_score'] = df_candidates['score']
-        df_filtered = df_filtered[['index', 'product_name', 'llm_product', 'recommended_product', 'reasoning', 'similarity_score', 'score']]
-        return df_filtered
-    
+        complementary_list = df_candidates[['index', 'product_name']].values.tolist()
+        df_filtered = self.check_complementary(product_name=product_name, complementary_list=complementary_list)
 
-    def filter_complementary_candidates(self, df_candidates, product_name, verbose=False):
-        
-        # ask the llm to check values
-        complementary_list = df_candidates['product_name'].tolist()
-        complete_list = self.check_complementary(product_name=product_name, complementary_list=complementary_list, verbose=verbose)
-        df_filtered = pd.DataFrame(complete_list)
-        df_filtered.columns = ['product_name', 'recommended_product', 'reasoning', 'score']
         df_filtered['llm_product'] = df_candidates['llm_product']
-        df_filtered['index'] = df_candidates['index']
-        df_filtered['similarity_score'] = df_candidates['score']
-        df_filtered = df_filtered[['index', 'product_name', 'llm_product', 'recommended_product', 'reasoning', 'similarity_score', 'score']]
+        df_filtered = df_filtered[['index', 'product_name', 'llm_product', 'recommended_product', 'reasoning', 'score']]
         return df_filtered
 
 
-    def find_product_complementaries(self, product_names):
+    def find_product_complementaries(self, product_names, max_retries=5):
 
         # perform the entire complimentary discovery pipeline
         if len(product_names) == 1:
@@ -88,7 +72,7 @@ class fn_main():
                     except:
                         print('ERR')
                         consecutive_err += 1
-                        if consecutive_err == 5:
+                        if consecutive_err == max_retries:
                             # maximum consecutive errors before exiting the iteration
                             break
             
