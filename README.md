@@ -1,3 +1,8 @@
+# Please cite
+Algorithm: **zeroCPR**<br>
+Author: **Michelangiolo Mazzeschi**<br>
+Published: **2nd September 2024**
+
 # zeroCPR
 zeroCPR stands for **zero-shot Complementary Product Recommender framework**. <br> It is an open-source library designed to employ the power of LLMs to find complementaries given your complete product stock.
 
